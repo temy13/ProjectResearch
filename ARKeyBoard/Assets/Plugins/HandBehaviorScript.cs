@@ -29,21 +29,26 @@ public class HandBehaviorScript : MonoBehaviour {
 		keyScript = KeysSceen.GetComponent<KeyBehaviourScript>();
 		for(int i = 0; i<FingerObjects.Length; i++)
 			fingerScripts[i] = FingerObjects[i].GetComponent<HandFingerBehaviourScript>();
+
+
+
 	}
 	//
 	// Update is called once per frame
 	void Update () {
-				Frame frame = controller.Frame ();
+				
+		Frame frame = controller.Frame ();
 				interactionBox = frame.InteractionBox;
 
 				for (int i = 0; i < frame.Hands.Count; i++) {
 						if (frame.Hands [i].IsLeft) {
 								LeftHand.SetActive (true);
 								ChangeLeftHandPosition (frame.Hands [i]);
+								
 						}
 						if (frame.Hands [i].IsRight) {
 								RightHand.SetActive (true);
-								ChangeLeftHandPosition (frame.Hands [i]);
+								ChangeRightHandPosition (frame.Hands [i]);
 						}
 				}
 		}
@@ -83,13 +88,16 @@ public class HandBehaviorScript : MonoBehaviour {
 
 
 	void ChangeFingersPosition(Finger f,int i,Hand hand){
+
+
 		if (f.Hand.IsRight) 
 			i += 5; 
-		Vector3 fin = getPositionForBox(f.TipPosition);
+		//Vector3 fin = getPositionForBox(f.TipPosition);
 
 
 		//whitekey push check
-		if (HandAndFingerDistance (hand.PalmPosition, f.TipPosition, 1) > 45) {
+		//if (HandAndFingerDistance (hand.PalmPosition, f.TipPosition, 1) > 45) {
+		if (!f.IsExtended){
 				PushAction (i, true);
 		} else if (HandAndFingerDistance (hand.PalmPosition, f.TipPosition, 1) < 0) {
 				PushAction (i, false);
@@ -155,6 +163,7 @@ public class HandBehaviorScript : MonoBehaviour {
 		                  finN,
 		                  fingerScripts[finN].getIsWhite());
 		fingerScripts[finN].setParam(false,-1);
+		fingerScripts[finN].setIsWhite(false);
 		if(finN < 5)
 			LeftHandDataScript.ReleaseFinger(finN);
 		else
@@ -175,6 +184,7 @@ public class HandBehaviorScript : MonoBehaviour {
 	Vector3 getPositionForBox(Vector v){
 		Vector normalizedPosition = interactionBox.NormalizePoint(v);
 		normalizedPosition *= 20;
+		//normalizedPosition.x += 10;
 		return ToVector3 (normalizedPosition);
 	}
 

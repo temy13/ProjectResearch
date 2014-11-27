@@ -2,6 +2,7 @@
 using System.Collections;
 using Leap;
 
+
 public class KeyBehaviourScript : MonoBehaviour {
 
 	public GameObject[] WhiteKeyObjects;
