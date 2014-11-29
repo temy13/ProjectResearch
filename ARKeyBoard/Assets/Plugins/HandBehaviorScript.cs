@@ -16,8 +16,6 @@ public class HandBehaviorScript : MonoBehaviour {
 	HandDataScript LeftHandDataScript;
 	HandDataScript RightHandDataScript;
 
-	public string debug;
-	public string debug2;
 
 	// Use this for initialization
 	void Start () {
@@ -25,37 +23,59 @@ public class HandBehaviorScript : MonoBehaviour {
 		RightHand.SetActive (false);
 		LeftHandDataScript = LeftHand.GetComponent<HandDataScript> ();
 		RightHandDataScript = RightHand.GetComponent<HandDataScript> ();
-		fingerScripts = new HandFingerBehaviourScript[FingerObjects.Length];
 		keyScript = KeysSceen.GetComponent<KeyBehaviourScript>();
+		fingerScripts = new HandFingerBehaviourScript[FingerObjects.Length];
 		for(int i = 0; i<FingerObjects.Length; i++)
 			fingerScripts[i] = FingerObjects[i].GetComponent<HandFingerBehaviourScript>();
-
-
-
 	}
 	//
 	// Update is called once per frame
 	void Update () {
-				
 		Frame frame = controller.Frame ();
 				interactionBox = frame.InteractionBox;
 
-				for (int i = 0; i < frame.Hands.Count; i++) {
-						if (frame.Hands [i].IsLeft) {
-								LeftHand.SetActive (true);
-								ChangeLeftHandPosition (frame.Hands [i]);
+		for(int i = 0; i<frame.Hands.Count; i++){
+			if(frame.Hands[i].IsLeft && HandPositionYCheck(frame.Hands[i],true)){
+				LeftHand.SetActive (true);
+				ChangeLeftHandPosition (frame.Hands[i]);
+			}
+			if(frame.Hands[i].IsRight && HandPositionYCheck(frame.Hands[i],false)){
+				RightHand.SetActive (true);
+				ChangeRightHandPosition (frame.Hands[i]);
+			}
+		}
+
+//		if (frame.Hands.Leftmost.IsLeft && HandPositionYCheck(frame.Hands.Leftmost)) {
+//						LeftHand.SetActive (true);
+//						ChangeLeftHandPosition (frame.Hands.Leftmost);
+//				} else {
+//						LeftHand.SetActive (false);
+//				}
+//		if (frame.Hands.Count > 0 && frame.Hands.Rightmost.IsRight && HandPositionYCheck(frame.Hands.Rightmost)) {
+//						RightHand.SetActive (true);
+//						ChangeLeftHandPosition (frame.Hands.Rightmost);
+//		} else {
+//			RightHand.SetActive (false);
+//		}
+		}
+
+	bool HandPositionYCheck(Hand hand,bool isleft){
+
+		if (hand.PalmPosition.y > 250) {
+						if (isleft) {
+								LeftHand.SetActive (false);
 								
+						} else {
+								RightHand.SetActive (false);
 						}
-						if (frame.Hands [i].IsRight) {
-								RightHand.SetActive (true);
-								ChangeRightHandPosition (frame.Hands [i]);
-						}
+						return false;
+				} else {
+						return true;
 				}
 		}
 
 
 	void ChangeLeftHandPosition(Hand lefthand){
-		//debug = HandAndFingerDistance (lefthand.PalmPosition, lefthand.Fingers [4].TipPosition, 1).ToString();
 		Vector3 hand_v = getPositionForBox (lefthand.PalmPosition);
 		if (LeftHandDataScript.CanMove (hand_v)) {
 						ChangeHandPosition (hand_v, LeftHand);
@@ -88,71 +108,60 @@ public class HandBehaviorScript : MonoBehaviour {
 
 
 	void ChangeFingersPosition(Finger f,int i,Hand hand){
-
-
+		//i is fingernumber
 		if (f.Hand.IsRight) 
 			i += 5; 
-		//Vector3 fin = getPositionForBox(f.TipPosition);
-
-
 		//whitekey push check
 		//if (HandAndFingerDistance (hand.PalmPosition, f.TipPosition, 1) > 45) {
-		if (!f.IsExtended){
-				PushAction (i, true);
-		} else if (HandAndFingerDistance (hand.PalmPosition, f.TipPosition, 1) < 0) {
+		if (!f.IsExtended && HandAndFingerDistance (hand.PalmPosition, f.TipPosition, 1) > 30) {
+						PushAction (i, true);
+		} else if (HandAndFingerDistance (hand.PalmPosition, f.TipPosition, 1) < -5) {
 				PushAction (i, false);
 		}else if (fingerScripts [i].getIsPush ()) { 
 				ReleseAction (i);
 		}
- 
 	}
-
-
-
+	
 	void PushAction(int i,bool isWhite){
-		fingerScripts [i].setIsWhite (isWhite);
-		//debug = FingerObjects [i].transform.position.x.ToString();
+		//fingerScripts [i].setIsWhite (isWhite);
 		if (!fingerScripts [i].getIsPush ()) {//今押されたのなら
 			PushNow (i,isWhite);
 		} else if(fingerScripts [i].getkeyNumber() != -1) {
 			Pushed (i,isWhite);
 		}
-
 	}
-	void PushNow(int i,bool isWhite)
-	{
+	void PushNow(int i,bool isWhite){
 		FingerObjects [i].transform.Rotate (-20, 0, 0);
 		int key_number = -1;
-		if(isWhite)
-			key_number = keyScript.SearchWhiteKey(FingerObjects[i].transform.position,i);
-		else
-			key_number = keyScript.SearchBlackKey(FingerObjects[i].transform.position,i);
-
-		fingerScripts[i].setParam(true,key_number);
+		if (isWhite) {
+						key_number = keyScript.SearchWhiteKey (FingerObjects [i].transform.position, i);
+						fingerScripts [i].setParam (true, key_number, 1);
+				} else {
+						key_number = keyScript.SearchBlackKey (FingerObjects [i].transform.position, i);
+						fingerScripts [i].setParam (true, key_number, 2);
+				}
 	}
 	void Pushed(int i,bool isWhite){
+		//もし白の鍵盤の番号になっていたらやらない
+		if (i >= 25 && !isWhite)
+			return;
 		//set and return isRotateDicect
 		int CannotMoveDirect 
 			= fingerScripts [i].SetRotateYAndIsRotate (FingerObjects [i].transform.eulerAngles.y);
-		debug2 = fingerScripts [i].getkeyNumber().ToString();
+
 		Vector3 keyPosition = keyScript.getKeyPosition(fingerScripts [i].getkeyNumber(),isWhite);
 		FingerObjects[i].transform.rotation = 
 			fingerScripts[i].FingerRotation(
 				FingerObjects[i].transform.rotation,
 				keyPosition
 				);
-		//cannot move to left
-		if(CannotMoveDirect == 1){
-			if(i < 5)
-				LeftHandDataScript.setCannotMoveDirect(1,i);
-			else
-				RightHandDataScript.setCannotMoveDirect(1,i);
-		//caonnot move to right
-		}else if(CannotMoveDirect == -1){
-			if(i < 5)
-				LeftHandDataScript.setCannotMoveDirect(-1,i);
-			else
-				RightHandDataScript.setCannotMoveDirect(-1,i);
+		//cannot move to left or right
+		if(CannotMoveDirect == 1 || CannotMoveDirect == -1){
+			if(i < 5){
+				LeftHandDataScript.setCannotMoveDirect(CannotMoveDirect,i);
+			}else{
+				RightHandDataScript.setCannotMoveDirect(CannotMoveDirect,i);
+			}
 		}
 	}
 
@@ -162,8 +171,7 @@ public class HandBehaviorScript : MonoBehaviour {
 		keyScript.StopKey(fingerScripts[finN].getkeyNumber(),
 		                  finN,
 		                  fingerScripts[finN].getIsWhite());
-		fingerScripts[finN].setParam(false,-1);
-		fingerScripts[finN].setIsWhite(false);
+		fingerScripts[finN].setParam(false,-1,0);
 		if(finN < 5)
 			LeftHandDataScript.ReleaseFinger(finN);
 		else
@@ -177,7 +185,6 @@ public class HandBehaviorScript : MonoBehaviour {
 						return hand.y - fing.y;
 				else if (kind == 2)
 						return hand.z - fing.z;
-
 		return 0;
 		}
 

@@ -18,7 +18,6 @@ public class ScoreBoardScript : MonoBehaviour {
 	int scorenumber;
 	//swipe
 	Controller controller = new Controller();
-	InteractionBox interactionBox = new InteractionBox();
 	// Use this for initialization
 	void Start () {
 
@@ -49,8 +48,12 @@ public class ScoreBoardScript : MonoBehaviour {
 		scoreboard.renderer.material.mainTexture = tex;
 	}
 
+	public void SetScoreFromImg(string imgfile){
+		string file = Application.dataPath + "/" + imgfile;
+		SetScore (LoadBin(file));
+		}
+
 	public void SetScoreFromPDF(string pdffile){
-		debug = pdffile;
 		string[] imagePaths = ImageFromPDF.ConvertPDFtoImg (Application.dataPath + "/"+pdffile);
 		for (int i = 0; i<imagePaths.Length; i++) {
 			image_bytes [i] = LoadBin (imagePaths [i]);

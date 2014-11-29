@@ -7,7 +7,8 @@ public class HandFingerBehaviourScript : MonoBehaviour {
 	int pushingKeyNumber = -1;
 	public string debug;
 	float Rotation_Y;
-	bool PushingKeyIsWhite;
+	//0 null 1 white 2 black
+	int PushingKeyIsWhite;
 
 
 	// Use this for initialization
@@ -20,18 +21,25 @@ public class HandFingerBehaviourScript : MonoBehaviour {
 	void Update () {
 	}
 
-	public void setParam(bool is_pushing,int KeyNumber){
+	public void setParam(bool is_pushing,int KeyNumber,int is_white){
 		Ispushing = is_pushing;
 		pushingKeyNumber = KeyNumber;
+		PushingKeyIsWhite = is_white;
 	}
 	public int getkeyNumber(){
 		return pushingKeyNumber;
 	}
 	public void setIsWhite(bool is_white){
-		PushingKeyIsWhite = is_white;
+		if (is_white)
+						PushingKeyIsWhite = 1;
+		else
+			PushingKeyIsWhite = 2;
 		}
 	public bool getIsWhite(){
-		return PushingKeyIsWhite;
+		if (PushingKeyIsWhite == 1)
+						return true;
+				else
+						return false;
 	}
 	public bool getIsPush(){
 		return Ispushing;

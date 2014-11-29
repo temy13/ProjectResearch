@@ -3,29 +3,35 @@ using System.Collections;
 
 public class TextScript : MonoBehaviour {
 
+	string template ;
 	string display_text;
+	string score_name;
 	public GameObject ScoreBoard;
 	ScoreBoardScript sc;
 	// Use this for initialization
 	void Start () {
+		template ="Input score file name:" + Application.dataPath + "/";
+		display_text = null;
 		sc = ScoreBoard.GetComponent<ScoreBoardScript>();
+		this.guiText.text = template + display_text;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (Input.anyKeyDown) {
 			InputTextCheck();
-			this.guiText.text = display_text;			
+			this.guiText.text = template + display_text;		
 		}
 	}
 	void InputTextCheck(){
 
-		if (Input.GetKeyDown (KeyCode.KeypadEnter))
-						sc.SetScoreFromPDF (display_text);
-				else if (Input.GetKeyDown (KeyCode.Backspace))
-						;
+		if (Input.GetKeyDown (KeyCode.Return)) {
+			SetScore();
+		}
+		else if (Input.GetKeyDown (KeyCode.Backspace) && display_text != null)
+			display_text = display_text.Remove(display_text.Length-1);
 		else if(Input.GetKeyDown(KeyCode.Slash))
-		        display_text += "/";
+		     display_text += "/";
 		else if (Input.GetKeyDown (KeyCode.Period))
 			display_text += ".";
 		else if (Input.GetKeyDown (KeyCode.Space))
@@ -57,7 +63,18 @@ public class TextScript : MonoBehaviour {
 				} else {
 			GetSmallChara();
 				}
+	}
 
+	void SetScore(){
+		if (display_text.EndsWith (".pdf")) 
+						sc.SetScoreFromPDF (display_text);
+			else if (display_text.EndsWith (".jpg") || display_text.EndsWith (".png") || display_text.EndsWith (".gif") || display_text.EndsWith (".bmp")) 
+						sc.SetScoreFromImg(display_text);
+			else
+				Debug.Log ("拡張子がおかしいです");
+
+		score_name = display_text;
+		display_text = null;
 	}
 
 	void GetLargeChara(){
@@ -107,7 +124,7 @@ public class TextScript : MonoBehaviour {
 			display_text += "V";
 		else if (Input.GetKeyDown ("w"))
 			display_text += "W";
-		else if (Input.GetKeyDown ("X"))
+		else if (Input.GetKeyDown ("x"))
 			display_text += "X";
 		else if (Input.GetKeyDown ("y"))
 			display_text += "Y";
@@ -161,7 +178,7 @@ public class TextScript : MonoBehaviour {
 			display_text += "v";
 		else if (Input.GetKeyDown ("w"))
 			display_text += "w";
-		else if (Input.GetKeyDown ("X"))
+		else if (Input.GetKeyDown ("x"))
 			display_text += "x";
 		else if (Input.GetKeyDown ("y"))
 			display_text += "y";

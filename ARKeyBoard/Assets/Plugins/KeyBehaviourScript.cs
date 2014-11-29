@@ -53,13 +53,14 @@ public class KeyBehaviourScript : MonoBehaviour {
 
 	public void StopKey(int i,int fingerNumber,bool isWhite){
 		//debug = i.ToString ();
+		Debug.Log(string.Format ("{0},{1},{2}",i.ToString(),fingerNumber.ToString(),isWhite.ToString()));
 		if (isWhite) {
 						if (i != -1 && WhitekeydataScripts [i].OnFingerNumber == fingerNumber) {
 								WhiteKeyObjects [i].renderer.material.color = Color.white;
 								WhitekeydataScripts [i].StopSound ();
 						}
 				} else {
-						if (i != -1 && BlackkeydataScripts [i].OnFingerNumber == fingerNumber) {
+						if (i != -1 && i < 25 && BlackkeydataScripts [i].OnFingerNumber == fingerNumber) {
 							BlackKeyObjects [i].renderer.material.color = Color.black;
 							BlackkeydataScripts [i].StopSound ();
 						}
@@ -70,11 +71,6 @@ public class KeyBehaviourScript : MonoBehaviour {
 		for (int i = 0; i<WhiteKeyObjects.Length; i++) {
 			int key = IsPush(i,WhiteKeyObjects[i].transform.position.x-fv.x,
 			                 fingerNumber,true);
-
-			if(i ==5)
-				debug =string.Format ("{0},{1}",(WhiteKeyObjects[i].transform.position.x-fv.x).ToString(),
-				                      (WhiteKeyObjects[i+1].transform.position.x-fv.x).ToString());
-
 			if(key != -1)
 				return key;
 		}
@@ -95,6 +91,7 @@ public class KeyBehaviourScript : MonoBehaviour {
 						return WhiteKeyObjects [i].transform.position;
 				else
 						return BlackKeyObjects [i].transform.position;
+
 		}
 
 }
