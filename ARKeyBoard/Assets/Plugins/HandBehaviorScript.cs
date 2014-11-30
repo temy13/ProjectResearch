@@ -61,7 +61,7 @@ public class HandBehaviorScript : MonoBehaviour {
 
 	bool HandPositionYCheck(Hand hand,bool isleft){
 
-		if (hand.PalmPosition.y > 250) {
+		if (hand.PalmPosition.y > 200) {
 						if (isleft) {
 								LeftHand.SetActive (false);
 								
