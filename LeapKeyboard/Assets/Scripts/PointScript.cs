@@ -29,7 +29,7 @@ public class PointScript : MonoBehaviour {
 		frame = controller.Frame ();
 		interactionBox = frame.InteractionBox;
 		for (int i = 0; i<frame.Hands.Count; i++) {
-			if(frame.Hands[i].PalmPosition.y > 200){
+			if(frame.Hands[i].PalmPosition.y > 180){
 				PointMove(frame.Hands[i]);
 				break;
 			}
@@ -38,7 +38,7 @@ public class PointScript : MonoBehaviour {
 
 	void PointMove(Hand hand){
 		PointSphere.SetActive (true);
-		PointSphere.transform.localPosition = getPositionForBox (hand.PalmPosition);
+		PointSphere.transform.localPosition = getPositionForPoint (hand.PalmPosition);
 		CheckPosition ();
 	}
 
@@ -63,10 +63,10 @@ public class PointScript : MonoBehaviour {
 	}
 
 	void ChangeSceneCheck(int i){
-		//if (IsCircle ()) {
+		if (IsCircle ()) {
 			Modes[i].renderer.material.color = Color.white;
 						sc.ChangeScene (i + 1);
-		//		}
+				}
 	}
 
 	bool IsCircle(){
@@ -74,10 +74,11 @@ public class PointScript : MonoBehaviour {
 		return (frame.Gestures ().Count > 0);
 	}
 
-	Vector3 getPositionForBox(Vector v){
+	Vector3 getPositionForPoint(Vector v){
 		Vector normalizedPosition = interactionBox.NormalizePoint(v);
 		normalizedPosition *= 30;
 		//normalizedPosition.x += 10;
+		normalizedPosition.y = 0;
 		return ToVector3 (normalizedPosition);
 	}
 	

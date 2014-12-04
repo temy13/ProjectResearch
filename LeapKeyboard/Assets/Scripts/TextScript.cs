@@ -5,7 +5,7 @@ public class TextScript : MonoBehaviour {
 
 	string template ;
 	string display_text;
-	string score_name;
+	//string score_name;
 	public GameObject ScoreBoard;
 	ScoreBoardScript sc;
 	// Use this for initialization
@@ -73,7 +73,7 @@ public class TextScript : MonoBehaviour {
 			else
 				Debug.Log ("拡張子がおかしいです");
 
-		score_name = display_text;
+		//score_name = display_text;
 		display_text = null;
 	}
 

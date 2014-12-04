@@ -5,7 +5,7 @@ public class SceneScript : MonoBehaviour {
 
 	public GameObject KeyBoard;
 	public GameObject PointSphere;
-	public GameObject[] Modes;
+	public GameObject GameSettings;
 	public string log;
 
 	// Use this for initialization
@@ -21,9 +21,7 @@ public class SceneScript : MonoBehaviour {
 	public void ChangeScene(int SceneN){
 		DontDestroyOnLoad (PointSphere);
 		DontDestroyOnLoad(KeyBoard);
-		for (int i = 0; i < Modes.Length; i++) {
-			DontDestroyOnLoad(Modes[i]);
-				}
+		DontDestroyOnLoad (GameSettings);
 		Application.LoadLevel (SceneN);
 	}
 }

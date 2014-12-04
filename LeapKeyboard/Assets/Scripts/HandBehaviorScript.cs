@@ -15,10 +15,14 @@ public class HandBehaviorScript : MonoBehaviour {
 	KeyBehaviourScript keyScript;
 	HandDataScript LeftHandDataScript;
 	HandDataScript RightHandDataScript;
+	public bool allmode{ get; set; }
+
+	public string debug;
 
 
 	// Use this for initialization
 	void Start () {
+		allmode = true;
 		LeftHand.SetActive (false);
 		RightHand.SetActive (false);
 		LeftHandDataScript = LeftHand.GetComponent<HandDataScript> ();
@@ -31,37 +35,38 @@ public class HandBehaviorScript : MonoBehaviour {
 	//
 	// Update is called once per frame
 	void Update () {
+		debug = allmode.ToString ();
 		Frame frame = controller.Frame ();
 				interactionBox = frame.InteractionBox;
 
-		for(int i = 0; i<frame.Hands.Count; i++){
-			if(frame.Hands[i].IsLeft && HandPositionYCheck(frame.Hands[i],true)){
-				LeftHand.SetActive (true);
-				ChangeLeftHandPosition (frame.Hands[i]);
-			}
-			if(frame.Hands[i].IsRight && HandPositionYCheck(frame.Hands[i],false)){
-				RightHand.SetActive (true);
-				ChangeRightHandPosition (frame.Hands[i]);
-			}
-		}
-
-//		if (frame.Hands.Leftmost.IsLeft && HandPositionYCheck(frame.Hands.Leftmost)) {
-//						LeftHand.SetActive (true);
-//						ChangeLeftHandPosition (frame.Hands.Leftmost);
-//				} else {
-//						LeftHand.SetActive (false);
-//				}
-//		if (frame.Hands.Count > 0 && frame.Hands.Rightmost.IsRight && HandPositionYCheck(frame.Hands.Rightmost)) {
-//						RightHand.SetActive (true);
-//						ChangeLeftHandPosition (frame.Hands.Rightmost);
-//		} else {
-//			RightHand.SetActive (false);
+//		for(int i = 0; i<frame.Hands.Count; i++){
+//			if(frame.Hands[i].IsLeft && HandPositionYCheck(frame.Hands[i],true)){
+//				LeftHand.SetActive (true);
+//				ChangeLeftHandPosition (frame.Hands[i]);
+//			}
+//			if(frame.Hands[i].IsRight && HandPositionYCheck(frame.Hands[i],false)){
+//				RightHand.SetActive (true);
+//				ChangeRightHandPosition (frame.Hands[i]);
+//			}
 //		}
+//Right Hand Is not moving
+		if (frame.Hands.Count > 0 && frame.Hands.Leftmost.IsLeft && HandPositionYCheck(frame.Hands.Leftmost,true)) {
+						LeftHand.SetActive (true);
+						ChangeLeftHandPosition (frame.Hands.Leftmost);
+				} else {
+						LeftHand.SetActive (false);
+				}
+		if (frame.Hands.Count > 0 && frame.Hands.Rightmost.IsRight && HandPositionYCheck(frame.Hands.Rightmost,false)) {
+						RightHand.SetActive (true);
+						ChangeLeftHandPosition (frame.Hands.Rightmost);
+		} else {
+			RightHand.SetActive (false);
+		}
 		}
 
 	bool HandPositionYCheck(Hand hand,bool isleft){
 
-		if (hand.PalmPosition.y > 200) {
+		if (hand.PalmPosition.y > 180) {
 						if (isleft) {
 								LeftHand.SetActive (false);
 								
@@ -190,7 +195,12 @@ public class HandBehaviorScript : MonoBehaviour {
 
 	Vector3 getPositionForBox(Vector v){
 		Vector normalizedPosition = interactionBox.NormalizePoint(v);
-		normalizedPosition *= 20;
+		if (allmode) {
+						normalizedPosition *= 20;
+				}else {
+						normalizedPosition *= 6;
+						normalizedPosition.x += 7;
+				}
 		//normalizedPosition.x += 10;
 		return ToVector3 (normalizedPosition);
 	}
