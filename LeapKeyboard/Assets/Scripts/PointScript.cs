@@ -45,8 +45,8 @@ public class PointScript : MonoBehaviour {
 	void CheckPosition(){
 		for(int i =0; i<Modes.Length; i++){
 			if(Vector2DistanceToMode(
-			PointSphere.transform.localPosition,
-			Modes[i].transform.localPosition)){
+			PointSphere.transform.position,
+			Modes[i].transform.position)){
 				Modes[i].renderer.material.color = Color.green;
 				ChangeSceneCheck(i);
 			}else if(Modes[i].renderer.material.color.Equals(Color.green))
@@ -63,10 +63,10 @@ public class PointScript : MonoBehaviour {
 	}
 
 	void ChangeSceneCheck(int i){
-		if (IsCircle ()) {
+		//if (IsCircle ()) {
 			Modes[i].renderer.material.color = Color.white;
 						sc.ChangeScene (i + 1);
-				}
+		//		}
 	}
 
 	bool IsCircle(){
@@ -76,7 +76,7 @@ public class PointScript : MonoBehaviour {
 
 	Vector3 getPositionForPoint(Vector v){
 		Vector normalizedPosition = interactionBox.NormalizePoint(v);
-		normalizedPosition *= 30;
+		normalizedPosition *= 35;
 		//normalizedPosition.x += 10;
 		normalizedPosition.y = 0;
 		return ToVector3 (normalizedPosition);

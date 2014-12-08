@@ -93,12 +93,12 @@ public class ImageFromPDF
 
 		string[] imagePath = new string[4];
 
-       /* Document pdfDocument = new Document(pdffile);
+        Document pdfDocument = new Document(pdffile);
 		
 		for (int pageCount = 1; pageCount <= pdfDocument.Pages.Count 
 		     && pageCount <= 4; pageCount++)
 		{
-			using (FileStream imageStream = new FileStream(Application.dataPath +"image" + pageCount + ".jpg", FileMode.Create))
+			using (FileStream imageStream = new FileStream(Application.dataPath +"/image" + pageCount + ".jpg", FileMode.Create))
 			{
 				// Create Resolution object
 				Aspose.Pdf.Devices.Resolution resolution = new Aspose.Pdf.Devices.Resolution(300);
@@ -112,7 +112,7 @@ public class ImageFromPDF
 				imageStream.Close();
 				imagePath[pageCount-1] = Application.dataPath +"/image" + pageCount + ".jpg";
 			}
-		}*/
+		}
 		return imagePath;
 		
 	}
