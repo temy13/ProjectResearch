@@ -6,7 +6,6 @@ public class SceneScript : MonoBehaviour {
 	public GameObject KeyBoard;
 	public GameObject PointSphere;
 	public GameObject GameSettings;
-	public string log;
 
 	// Use this for initialization
 	void Start () {

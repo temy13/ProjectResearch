@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using System;
 using Leap;
 
 public class PointScript : MonoBehaviour {
@@ -9,14 +8,15 @@ public class PointScript : MonoBehaviour {
 	InteractionBox interactionBox = new InteractionBox();
 	Frame frame;
 
-	public GameObject[] Modes;
-	SceneScript sc;
+	public GameObject SettingSwitchObject;
+	public GameObject SettingObject;
 
+	SettingScript stc;
 
 	// Use this for initialization
 	void Start () {
 		//PointSphere.SetActive (false);
-		sc = this.GetComponent<SceneScript> ();
+		stc = SettingObject.GetComponent<SettingScript> ();
 		controller.EnableGesture(Gesture.GestureType.TYPECIRCLE);
 		controller.EnableGesture(Gesture.GestureType.TYPEKEYTAP);
 		controller.EnableGesture(Gesture.GestureType.TYPESCREENTAP);
@@ -29,7 +29,7 @@ public class PointScript : MonoBehaviour {
 		frame = controller.Frame ();
 		interactionBox = frame.InteractionBox;
 		for (int i = 0; i<frame.Hands.Count; i++) {
-			if(frame.Hands[i].PalmPosition.y > 180){
+			if(frame.Hands[i].PalmPosition.y > 180 || stc.IsKeyBoardMoving){
 				PointMove(frame.Hands[i]);
 				break;
 			}
@@ -39,39 +39,27 @@ public class PointScript : MonoBehaviour {
 	void PointMove(Hand hand){
 		PointSphere.SetActive (true);
 		PointSphere.transform.localPosition = getPositionForPoint (hand.PalmPosition);
-		CheckPosition ();
+		SettingSwitchCheck ();
+
+		stc.CheckPosition ();
 	}
 
-	void CheckPosition(){
-		for(int i =0; i<Modes.Length; i++){
-			if(Vector2DistanceToMode(
-			PointSphere.transform.position,
-			Modes[i].transform.position)){
-				Modes[i].renderer.material.color = Color.green;
-				ChangeSceneCheck(i);
-			}else if(Modes[i].renderer.material.color.Equals(Color.green))
-			         {
-				Modes[i].renderer.material.color = Color.white;
-			}
+	void SettingSwitchCheck(){
+		if (Vector3.Distance (PointSphere.transform.position, SettingSwitchObject.transform.position) < 2.0 && IsCircle()) {
+			if(SettingObject.activeSelf)
+				SettingObject.SetActive(false);
+			else
+				SettingObject.SetActive(true);
 		}
-	}
-	
-	bool Vector2DistanceToMode(Vector3 sphere, Vector3 mode){
-		Debug.Log (Modes[0].renderer.bounds.size.z.ToString ());
-		return(Math.Abs(sphere.x - mode.x) < Modes[0].renderer.bounds.size.x &&
-		Math.Abs(sphere.z - mode.z) < Modes[0].renderer.bounds.size.z );
-	}
 
-	void ChangeSceneCheck(int i){
-		//if (IsCircle ()) {
-			Modes[i].renderer.material.color = Color.white;
-						sc.ChangeScene (i + 1);
-		//		}
 	}
 
 	bool IsCircle(){
 		//本当はサークルがヒットしたらtrueにするつもりだったけどめんどくさいからGestureがなんかあったらで
-		return (frame.Gestures ().Count > 0);
+		if (frame.Gestures ().Count > 0)
+			return true;
+		else
+			return false;
 	}
 
 	Vector3 getPositionForPoint(Vector v){
