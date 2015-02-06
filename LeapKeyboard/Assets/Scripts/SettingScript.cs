@@ -28,29 +28,31 @@ public class SettingScript : MonoBehaviour {
 		controller.EnableGesture(Gesture.GestureType.TYPEKEYTAP);
 		controller.EnableGesture(Gesture.GestureType.TYPESCREENTAP);
 		controller.EnableGesture(Gesture.GestureType.TYPESWIPE);
+		sc = this.GetComponent<SceneScript> ();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		frame = controller.Frame ();
 		interactionBox = frame.InteractionBox;
-		CheckSwitchPosition ();
 		if (IsKeyBoardMoving)
 			KeyBoardMove();
 
 		if (Input.GetKeyDown (KeyCode.Return)) {
 			IsKeyBoardMoving = false;
+			KeyBoardMoveSwitch.renderer.material.color = Color.white;
 		}
+		CheckSwitchPosition ();
+
 	}
 
 	public void CheckPosition(){
-		if (!IsCircle ())
-			return;
-		
+
 		for(int i =0; i<Modes.Length; i++){
 			if(Vector2DistanceToMode(
 				pointObject.transform.position,
 				Modes[i].transform.position)){
+				Debug.Log ("green");
 				Modes[i].renderer.material.color = Color.green;
 				ChangeScene(i);
 			}else if(Modes[i].renderer.material.color.Equals(Color.green))
@@ -62,29 +64,39 @@ public class SettingScript : MonoBehaviour {
 	}
 	
 	bool Vector2DistanceToMode(Vector3 sphere, Vector3 mode){
-		//Debug.Log (string.Format ("Modesize:{0}:{1}", Modes [0].renderer.bounds.size.x, Modes [0].renderer.bounds.size.z));
+		Debug.Log (string.Format ("Modesize:{0}:{1}", AllKeyMode.renderer.bounds.size.x, AllKeyMode.renderer.bounds.size.z));
 		//Debug.Log (string.Format ("Abs:{0}:{1}",Math.Abs(sphere.x - mode.x).ToString(),Math.Abs(sphere.z - mode.z)));
 		return(Math.Abs(sphere.x - mode.x) < (Modes[0].renderer.bounds.size.x)/2 &&
 		       Math.Abs(sphere.z - mode.z) < (Modes[0].renderer.bounds.size.z)/2 );
 	}
+	bool Vector2DistanceToSwitch(Vector3 sphere, Vector3 switchbutton){
+		//Debug.Log (string.Format ("Modesize:{0}:{1}", AllKeyMode.renderer.bounds.size.x, AllKeyMode.renderer.bounds.size.z));
+		//Debug.Log (string.Format ("Abs:{0}:{1}",Math.Abs(sphere.x - mode.x).ToString(),Math.Abs(sphere.z - mode.z)));
+		return(Math.Abs(sphere.x - switchbutton.x) < (AllKeyMode.renderer.bounds.size.x)/2 &&
+		       Math.Abs(sphere.z - switchbutton.z) < (AllKeyMode.renderer.bounds.size.z)/2 );
+	}
 	
 	void ChangeScene(int i){
-		
+		if (!IsCircle () && !Input.GetMouseButton(0))
+			return;
 		Modes[i].renderer.material.color = Color.white;
+		Debug.Log (i.ToString ());
 		sc.ChangeScene (i + 1);
 		
 	}
 
 	void CheckSwitchPosition()
 	{
-		if (pointObject.activeSelf && Vector3.Distance (pointObject.transform.position, AllKeyMode.transform.position) < 2.0)
+		if (pointObject.activeSelf && Vector2DistanceToSwitch (pointObject.transform.position, AllKeyMode.transform.position))
 			ChangeAllKeyMode ();
-		if (KeyBoardMoveSwitch.activeSelf && Vector3.Distance (pointObject.transform.position, KeyBoardMoveSwitch.transform.position) < 2.0) 
-						ChangeKeyBoardMoveMode ();
+		if (KeyBoardMoveSwitch.activeSelf && Vector2DistanceToSwitch (pointObject.transform.position, KeyBoardMoveSwitch.transform.position)) {
+			KeyBoardMoveSwitch.renderer.material.color = Color.blue;
+				ChangeKeyBoardMoveMode ();
+			}
 	}
 
 	void ChangeAllKeyMode(){
-		if (!IsCircle ())
+		if (!IsCircle () && !Input.GetMouseButton(0))
 						return;
 		if (hbs.allmode) {
 						hbs.allmode = false;
@@ -95,7 +107,14 @@ public class SettingScript : MonoBehaviour {
 				}
 	}
 	void ChangeKeyBoardMoveMode(){
+		if (!IsCircle () && !Input.GetMouseButton(0))
+			return;
 		IsKeyBoardMoving = !IsKeyBoardMoving;
+		if(IsKeyBoardMoving)
+			KeyBoardMoveSwitch.renderer.material.color = Color.blue;
+		else
+			KeyBoardMoveSwitch.renderer.material.color = Color.white;
+
 		BeforePointPosition = pointObject.transform.localPosition;
 	}
 

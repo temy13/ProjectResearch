@@ -20,10 +20,6 @@ public class HandDataScript : MonoBehaviour {
 	void Update () {
 		if (LimitRotateFingerList.Count == 0)
 						CannotMoveDirect = 0;
-		debug = string.Format ("{0},{1}", 
-		                       LimitRotateFingerList.Count.ToString (), 
-		                       CannotMoveDirect.ToString ());
-
 	}
 
 	public void setCannotMoveDirect(int can_move,int fingerNumber){

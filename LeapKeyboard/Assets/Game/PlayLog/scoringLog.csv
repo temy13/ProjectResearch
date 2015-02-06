@@ -1,0 +1,15 @@
+186.018, PlayerAction,HIT ABOVE BEST,Miss,Score=4
+187.1636, PlayerAction,HIT ABOVE GOOD,Miss,Score=2
+188.1576, PlayerAction,HIT ABOVE GOOD,Miss,Score=2
+191.793, PlayerAction,HIT BELOW GOOD,Miss,Score=2
+195.874, PlayerAction,HIT BELOW GOOD,Miss,Score=2
+200,IdealAction,,lowlowD
+199.955, PlayerAction,HIT ABOVE BEST,Miss,Score=4
+202.097, PlayerAction,HIT ABOVE BEST,Miss,Score=4
+202.993, PlayerAction,HIT BELOW BEST,Miss,Score=4
+203.5903, PlayerAction,HIT ABOVE BEST,Miss,Score=4
+204.0873, PlayerAction,HIT ABOVE BEST,Miss,Score=4
+207.7716, PlayerAction, MISS,Miss,Score=-1
+212.002, PlayerAction,HIT ABOVE BEST,Miss,Score=4
+215.9336, PlayerAction,HIT ABOVE GOOD,Miss,Score=2
+217.826, PlayerAction, MISS,Miss,Score=-1

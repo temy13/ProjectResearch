@@ -5,6 +5,7 @@ using Leap;
 public class KeyDataScript : MonoBehaviour {
 
 	AudioSource keySound;
+	bool GameCheckCount = false;//for game
 
 	private int onFingerNumber;
 	public int OnFingerNumber{
@@ -43,9 +44,16 @@ public class KeyDataScript : MonoBehaviour {
 	public void StopSound()
 	{
 		this.OnFingerNumber = -1;
+		this.GameCheckCount = false;
 		if (this.GetComponent<AudioSource> ()) {
 						keySound.Stop ();
 						//keySound.loop = false;
 				}
 	}
+	public void setGameCheckCount(){
+		this.GameCheckCount = true;
+		}
+	public bool getGameCheckCount(){
+		return this.GameCheckCount;
+		}
 }

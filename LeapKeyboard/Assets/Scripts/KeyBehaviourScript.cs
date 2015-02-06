@@ -7,8 +7,8 @@ public class KeyBehaviourScript : MonoBehaviour {
 
 	public GameObject[] WhiteKeyObjects;
 	public GameObject[] BlackKeyObjects;
-	KeyDataScript[] WhitekeydataScripts;
-	KeyDataScript[] BlackkeydataScripts;
+	public KeyDataScript[] WhitekeydataScripts;
+	public KeyDataScript[] BlackkeydataScripts;
 	public string debug;
 	public GameObject KeyBoardObject;
 
@@ -24,7 +24,7 @@ public class KeyBehaviourScript : MonoBehaviour {
 		for (int i = 0; i<BlackKeyObjects.Length; i++) {
 			BlackkeydataScripts[i] = BlackKeyObjects [i].GetComponent<KeyDataScript> ();
 		}
-
+		//Debug.Log (WhitekeydataScripts [0].OnFingerNumber.ToString ());
 	}
 	
 	// Update is called once per frame

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Leap;
+using System;
 
 public class PointScript : MonoBehaviour {
 	public GameObject PointSphere;
@@ -12,6 +13,8 @@ public class PointScript : MonoBehaviour {
 	public GameObject SettingObject;
 
 	SettingScript stc;
+
+	private Vector3 mouse_position;
 
 	// Use this for initialization
 	void Start () {
@@ -28,16 +31,31 @@ public class PointScript : MonoBehaviour {
 	void Update () {
 		frame = controller.Frame ();
 		interactionBox = frame.InteractionBox;
+		if(frame.Hands.Count == 0)
+			PointMoveByMouse();
 		for (int i = 0; i<frame.Hands.Count; i++) {
 			if(frame.Hands[i].PalmPosition.y > 180 || stc.IsKeyBoardMoving){
-				PointMove(frame.Hands[i]);
+				PointMoveByHand(frame.Hands[i]);
 				break;
+			}else{
+				PointMoveByMouse();
 			}
 		}
+
+	}
+	void PointMoveByMouse(){
+		mouse_position = Input.mousePosition;
+		mouse_position.z = 10f;
+		mouse_position = Camera.main.ScreenToWorldPoint (mouse_position);
+		// マウス位置座標をスクリーン座標からワールド座標に変換する
+		PointSphere.transform.localPosition = new Vector3 (mouse_position.x*3-50, 0, mouse_position.z*4-25);
+		SettingSwitchCheck ();
+		
+		stc.CheckPosition ();
 	}
 
-	void PointMove(Hand hand){
-		PointSphere.SetActive (true);
+	void PointMoveByHand(Hand hand){
+		//PointSphere.SetActive (true);
 		PointSphere.transform.localPosition = getPositionForPoint (hand.PalmPosition);
 		SettingSwitchCheck ();
 
@@ -45,13 +63,14 @@ public class PointScript : MonoBehaviour {
 	}
 
 	void SettingSwitchCheck(){
-		if (Vector3.Distance (PointSphere.transform.position, SettingSwitchObject.transform.position) < 2.0 && IsCircle()) {
+
+		if (Vector2DistanceToSwitch (PointSphere.transform.position, SettingSwitchObject.transform.position) && (IsCircle() || Input.GetMouseButton(0))) {
+			Debug.Log ("switch");
 			if(SettingObject.activeSelf)
 				SettingObject.SetActive(false);
 			else
 				SettingObject.SetActive(true);
 		}
-
 	}
 
 	bool IsCircle(){
@@ -74,6 +93,11 @@ public class PointScript : MonoBehaviour {
 	{
 		return new UnityEngine.Vector3( v.x, v.y, v.z );
 	}
-
-
+	bool Vector2DistanceToSwitch(Vector3 sphere, Vector3 switchbutton){
+		//Debug.Log (string.Format ("Modesize:{0}:{1}", AllKeyMode.renderer.bounds.size.x, AllKeyMode.renderer.bounds.size.z));
+		//Debug.Log (string.Format ("Abs:{0}:{1}",Math.Abs(sphere.x - mode.x).ToString(),Math.Abs(sphere.z - mode.z)));
+		return(Math.Abs(sphere.x - switchbutton.x) < (SettingSwitchObject.renderer.bounds.size.x)/2 &&
+		       Math.Abs(sphere.z - switchbutton.z) < (SettingSwitchObject.renderer.bounds.size.z)/2 );
+	}
+	
 }
