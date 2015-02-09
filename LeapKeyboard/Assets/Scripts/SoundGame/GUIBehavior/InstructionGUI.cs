@@ -28,6 +28,7 @@ public class InstructionGUI : MonoBehaviour {
 		}*/
 		//クリックで次に進む
 		if( Input.GetMouseButton(0) ){
+			GameObject.Find("MusicManager").GetComponent<MusicManager>().StopMusic();
 			GameObject.Find("PhaseManager").GetComponent<PhaseManager>().SetPhase("Play");
 		}
 	}

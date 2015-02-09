@@ -33,7 +33,7 @@ public class KeyBehaviourScript : MonoBehaviour {
 	}
 
 	int IsPush(int keyN,float pos_x_dif,int fingerNumber,bool isWhite){
-		if (Mathf.Abs(pos_x_dif) < 0.80) {
+		if (Mathf.Abs(pos_x_dif) < 1.00) {
 			SoundKey(keyN,fingerNumber,isWhite); 
 			return keyN;
 		}
@@ -53,7 +53,7 @@ public class KeyBehaviourScript : MonoBehaviour {
 
 	public void StopKey(int i,int fingerNumber,bool isWhite){
 		//debug = i.ToString ();
-		Debug.Log(string.Format ("{0},{1},{2}",i.ToString(),fingerNumber.ToString(),isWhite.ToString()));
+		//Debug.Log(string.Format ("i:{0},fiN:{1},iswhite:{2}",i.ToString(),fingerNumber.ToString(),isWhite.ToString()));
 		if (isWhite) {
 						if (i != -1 && WhitekeydataScripts [i].OnFingerNumber == fingerNumber) {
 								WhiteKeyObjects [i].renderer.material.color = Color.white;

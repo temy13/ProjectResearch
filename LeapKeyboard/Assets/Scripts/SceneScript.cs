@@ -26,7 +26,7 @@ public class SceneScript : MonoBehaviour {
 		DontDestroyOnLoad (SettingSwitch);
 		Vector3 keyboard_v = KeyBoard.transform.position;
 		if (SceneN == 2) {
-						KeyBoard.transform.position = new Vector3 (keyboard_v.x, keyboard_v.y, -25);
+			KeyBoard.transform.position = new Vector3 (keyboard_v.x, keyboard_v.y, -7);
 				} else {
 						KeyBoard.transform.position = new Vector3 (keyboard_v.x, keyboard_v.y, -3);
 				}

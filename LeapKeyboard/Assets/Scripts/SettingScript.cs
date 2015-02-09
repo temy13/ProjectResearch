@@ -52,7 +52,6 @@ public class SettingScript : MonoBehaviour {
 			if(Vector2DistanceToMode(
 				pointObject.transform.position,
 				Modes[i].transform.position)){
-				Debug.Log ("green");
 				Modes[i].renderer.material.color = Color.green;
 				ChangeScene(i);
 			}else if(Modes[i].renderer.material.color.Equals(Color.green))
@@ -64,7 +63,7 @@ public class SettingScript : MonoBehaviour {
 	}
 	
 	bool Vector2DistanceToMode(Vector3 sphere, Vector3 mode){
-		Debug.Log (string.Format ("Modesize:{0}:{1}", AllKeyMode.renderer.bounds.size.x, AllKeyMode.renderer.bounds.size.z));
+		//Debug.Log (string.Format ("Modesize:{0}:{1}", AllKeyMode.renderer.bounds.size.x, AllKeyMode.renderer.bounds.size.z));
 		//Debug.Log (string.Format ("Abs:{0}:{1}",Math.Abs(sphere.x - mode.x).ToString(),Math.Abs(sphere.z - mode.z)));
 		return(Math.Abs(sphere.x - mode.x) < (Modes[0].renderer.bounds.size.x)/2 &&
 		       Math.Abs(sphere.z - mode.z) < (Modes[0].renderer.bounds.size.z)/2 );
@@ -77,18 +76,18 @@ public class SettingScript : MonoBehaviour {
 	}
 	
 	void ChangeScene(int i){
-		if (!IsCircle () && !Input.GetMouseButton(0))
+		if ( !Input.GetMouseButton(0) && !IsCircle () )
 			return;
 		Modes[i].renderer.material.color = Color.white;
-		Debug.Log (i.ToString ());
 		sc.ChangeScene (i + 1);
 		
 	}
 
 	void CheckSwitchPosition()
 	{
-		if (pointObject.activeSelf && Vector2DistanceToSwitch (pointObject.transform.position, AllKeyMode.transform.position))
+		if (pointObject.activeSelf && Vector2DistanceToSwitch (pointObject.transform.position, AllKeyMode.transform.position)) {		
 			ChangeAllKeyMode ();
+				}
 		if (KeyBoardMoveSwitch.activeSelf && Vector2DistanceToSwitch (pointObject.transform.position, KeyBoardMoveSwitch.transform.position)) {
 			KeyBoardMoveSwitch.renderer.material.color = Color.blue;
 				ChangeKeyBoardMoveMode ();
@@ -96,18 +95,18 @@ public class SettingScript : MonoBehaviour {
 	}
 
 	void ChangeAllKeyMode(){
-		if (!IsCircle () && !Input.GetMouseButton(0))
+		if (!Input.GetMouseButton(0) && !IsCircle () )
 						return;
 		if (hbs.allmode) {
-						hbs.allmode = false;
-						AllKeyMode.renderer.material.color = Color.white;
-				} else {
-						hbs.allmode = true;
+			hbs.allmode= false;
 						AllKeyMode.renderer.material.color = Color.blue;
+				} else {
+			hbs.allmode = true;
+						AllKeyMode.renderer.material.color = Color.white;
 				}
 	}
 	void ChangeKeyBoardMoveMode(){
-		if (!IsCircle () && !Input.GetMouseButton(0))
+		if (!Input.GetMouseButton(0)&&  !IsCircle () )
 			return;
 		IsKeyBoardMoving = !IsKeyBoardMoving;
 		if(IsKeyBoardMoving)

@@ -63,17 +63,26 @@ public class PointScript : MonoBehaviour {
 	}
 
 	void SettingSwitchCheck(){
-
-		if (Vector2DistanceToSwitch (PointSphere.transform.position, SettingSwitchObject.transform.position) && (IsCircle() || Input.GetMouseButton(0))) {
-			Debug.Log ("switch");
-			if(SettingObject.activeSelf)
-				SettingObject.SetActive(false);
-			else
-				SettingObject.SetActive(true);
+		if (!Vector2DistanceToSwitch (PointSphere.transform.position, SettingSwitchObject.transform.position) || !(Input.GetMouseButton (0) /*|| IsCircle()*/)) {
+			return;		
 		}
+			GameObject camera = GameObject.Find("Main Camera");
+			if(SettingObject.activeSelf){
+				if(camera)camera.transform.position = new Vector3(25,20,0);
+				SettingObject.SetActive(false);
+				SettingSwitchObject.transform.position = new Vector3(0,-8,6);
+			}
+			else{
+				if(camera)camera.transform.position = new Vector3(25,50,8);
+				SettingObject.SetActive(true);
+				SettingSwitchObject.transform.position = new Vector3(0,0,15);
+			}
+		
 	}
 
 	bool IsCircle(){
+		if (!frame.IsValid)
+						return false;
 		//本当はサークルがヒットしたらtrueにするつもりだったけどめんどくさいからGestureがなんかあったらで
 		if (frame.Gestures ().Count > 0)
 			return true;

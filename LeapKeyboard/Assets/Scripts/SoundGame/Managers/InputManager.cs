@@ -43,8 +43,8 @@ public class InputManager : MonoBehaviour {
 			keydata = keyBehaviour.BlackkeydataScripts [keynumber];
 		}
 		
-		if( Input.GetMouseButtonDown(0)){
-		//if(keydata.OnFingerNumber != -1  && !keydata.getGameCheckCount()){
+		//if( Input.GetMouseButtonDown(0)){
+		if(keydata.OnFingerNumber != -1  && !keydata.getGameCheckCount()){
 			keydata.setGameCheckCount();//check true
 			if (m_scoringManager.temper < ScoringManager.temperThreshold){
 				//KeyPosition=KeyPositionEnum.HeadBanging;

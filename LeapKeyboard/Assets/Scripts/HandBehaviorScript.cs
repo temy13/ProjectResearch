@@ -19,9 +19,16 @@ public class HandBehaviorScript : MonoBehaviour {
 
 	public string debug;
 
+	public int real_mode_center = 0;
+
+	public int[] WhiteKeyDistanceByFinger = new int[]{
+		-100,30,30,25,20,
+		-100,30,30,25,20
+	};
 
 	// Use this for initialization
 	void Start () {
+		real_mode_center = 6;
 		allmode = true;
 		LeftHand.SetActive (false);
 		RightHand.SetActive (false);
@@ -58,10 +65,10 @@ public class HandBehaviorScript : MonoBehaviour {
 				}
 		if (frame.Hands.Count > 0 && frame.Hands.Rightmost.IsRight && HandPositionYCheck(frame.Hands.Rightmost,false)) {
 						RightHand.SetActive (true);
-						ChangeLeftHandPosition (frame.Hands.Rightmost);
-		} else {
-			RightHand.SetActive (false);
-		}
+						ChangeRightHandPosition (frame.Hands.Rightmost);
+				} else {
+					RightHand.SetActive (false);
+				}
 		}
 
 	bool HandPositionYCheck(Hand hand,bool isleft){
@@ -116,11 +123,14 @@ public class HandBehaviorScript : MonoBehaviour {
 		//i is fingernumber
 		if (f.Hand.IsRight) 
 			i += 5; 
+		//Vector joint = f.JointPosition(Finger.FingerJoint.JOINT_PIP);
+
 		//whitekey push check
-		//if (HandAndFingerDistance (hand.PalmPosition, f.TipPosition, 1) > 45) {
-		if (!f.IsExtended && HandAndFingerDistance (hand.PalmPosition, f.TipPosition, 1) > 30) {
+		if (!f.IsExtended && HandAndFingerDistance (hand.PalmPosition, f.TipPosition, 1) > WhiteKeyDistanceByFinger[i]
+		    ) {
 						PushAction (i, true);
-		} else if (HandAndFingerDistance (hand.PalmPosition, f.TipPosition, 1) < -5) {
+			//black key push check
+		} else if (HandAndFingerDistance (hand.PalmPosition, f.TipPosition, 1) < -30) {
 				PushAction (i, false);
 		}else if (fingerScripts [i].getIsPush ()) { 
 				ReleseAction (i);
@@ -184,6 +194,7 @@ public class HandBehaviorScript : MonoBehaviour {
 	}
 
 	float HandAndFingerDistance(Vector hand,Vector fing,int kind){
+
 		if (kind == 0)
 						return hand.x - fing.x;
 				else if (kind == 1)
@@ -198,8 +209,9 @@ public class HandBehaviorScript : MonoBehaviour {
 		if (allmode) {
 						normalizedPosition *= 20;
 				}else {
-						normalizedPosition *= 6;
-						normalizedPosition.x += 7;
+						normalizedPosition *= 7;
+						normalizedPosition.x += real_mode_center;
+						//normalizedPosition.x +=6;
 				}
 		//normalizedPosition.x += 10;
 		return ToVector3 (normalizedPosition);
@@ -209,4 +221,7 @@ public class HandBehaviorScript : MonoBehaviour {
 	{
 		return new UnityEngine.Vector3( v.x, v.y, v.z );
 	}
+
+
+
 }

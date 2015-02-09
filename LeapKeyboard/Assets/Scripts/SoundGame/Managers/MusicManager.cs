@@ -70,6 +70,9 @@ public class MusicManager : MonoBehaviour {
 		m_previousBeatCountFromStart=0;
 		m_audioSource.Play();
 	}
+	public void StopMusic(){
+		m_audioSource.Stop ();
+	}
 	public bool IsPlaying(){
 		return m_audioSource.isPlaying;
 	}
