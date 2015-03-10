@@ -44,6 +44,7 @@ public class SettingScript : MonoBehaviour {
 		}
 		CheckSwitchPosition ();
 
+
 	}
 
 	public void CheckPosition(){

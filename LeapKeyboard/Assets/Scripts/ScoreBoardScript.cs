@@ -13,6 +13,8 @@ public class ScoreBoardScript : MonoBehaviour {
 
 	public string debug;
 	public GameObject scoreboard;
+	GameObject camera;
+	GameObject keyboard;
 	//score
 	byte[][] image_bytes = new byte[4][];
 	int scorenumber;
@@ -27,6 +29,8 @@ public class ScoreBoardScript : MonoBehaviour {
 		controller.EnableGesture(Gesture.GestureType.TYPEKEYTAP);
 		controller.EnableGesture(Gesture.GestureType.TYPESCREENTAP);
 		controller.EnableGesture(Gesture.GestureType.TYPESWIPE);
+		camera = GameObject.Find("Main Camera");
+		keyboard = GameObject.Find("KeyBoard");
 	}
 	
 	// Update is called once per frame
@@ -39,6 +43,23 @@ public class ScoreBoardScript : MonoBehaviour {
 			if(gesture.Type == Gesture.GestureType.TYPE_SWIPE) {
 				ChangeScore(new SwipeGesture(gesture));
 			}
+		}
+		if (Input.GetKeyDown (KeyCode.UpArrow)) {
+						moveCamera (true);
+				} else if (Input.GetKeyDown (KeyCode.DownArrow)) {
+						moveCamera (false);
+				}
+
+	}
+	void moveCamera(bool isup){
+		Vector3 camera_pos = camera.transform.position;
+		Vector3 key_pos = keyboard.transform.position;
+		if (isup) {
+						camera.transform.position = new Vector3 (camera_pos.x, camera_pos.y, camera_pos.z + 1);
+			keyboard.transform.position = new Vector3 (key_pos.x, key_pos.y, key_pos.z + 1);
+		}else{
+			camera.transform.position = new Vector3 (camera_pos.x, camera_pos.y, camera_pos.z - 1);
+			keyboard.transform.position = new Vector3 (key_pos.x, key_pos.y, key_pos.z - 1);
 		}
 	}
 	//image file to score

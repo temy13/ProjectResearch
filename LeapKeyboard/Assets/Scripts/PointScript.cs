@@ -24,7 +24,7 @@ public class PointScript : MonoBehaviour {
 		controller.EnableGesture(Gesture.GestureType.TYPEKEYTAP);
 		controller.EnableGesture(Gesture.GestureType.TYPESCREENTAP);
 		controller.EnableGesture(Gesture.GestureType.TYPESWIPE);
-
+		SettingSwitchObject.SetActive (false);
 	}
 	
 	// Update is called once per frame
@@ -41,6 +41,9 @@ public class PointScript : MonoBehaviour {
 				PointMoveByMouse();
 			}
 		}
+		if(Input.GetKey(KeyCode.F1)){
+			SettingActiveSet();
+		}
 
 	}
 	void PointMoveByMouse(){
@@ -49,35 +52,34 @@ public class PointScript : MonoBehaviour {
 		mouse_position = Camera.main.ScreenToWorldPoint (mouse_position);
 		// マウス位置座標をスクリーン座標からワールド座標に変換する
 		PointSphere.transform.localPosition = new Vector3 (mouse_position.x*3-50, 0, mouse_position.z*4-25);
-		SettingSwitchCheck ();
-		
+				
 		stc.CheckPosition ();
 	}
 
 	void PointMoveByHand(Hand hand){
 		//PointSphere.SetActive (true);
 		PointSphere.transform.localPosition = getPositionForPoint (hand.PalmPosition);
-		SettingSwitchCheck ();
 
 		stc.CheckPosition ();
 	}
 
-	void SettingSwitchCheck(){
-		if (!Vector2DistanceToSwitch (PointSphere.transform.position, SettingSwitchObject.transform.position) || !(Input.GetMouseButton (0) /*|| IsCircle()*/)) {
-			return;		
+	void SettingActiveSet(){
+		GameObject camera = GameObject.Find("Main Camera");
+		if(SettingObject.activeSelf){
+			/*if(Application.loadedLevelName == "KeyBoardWithScore" && camera){
+				camera.transform.position = new Vector3(25,1,40);
+			}else */if(camera){
+				camera.transform.position = new Vector3(25,20,0);
+			}
+			SettingObject.SetActive(false);
+			SettingSwitchObject.transform.position = new Vector3(0,-8,6);
 		}
-			GameObject camera = GameObject.Find("Main Camera");
-			if(SettingObject.activeSelf){
-				if(camera)camera.transform.position = new Vector3(25,20,0);
-				SettingObject.SetActive(false);
-				SettingSwitchObject.transform.position = new Vector3(0,-8,6);
-			}
-			else{
-				if(camera)camera.transform.position = new Vector3(25,50,8);
-				SettingObject.SetActive(true);
-				SettingSwitchObject.transform.position = new Vector3(0,0,15);
-			}
-		
+		else{
+			if(camera)camera.transform.position = new Vector3(25,50,8);
+			SettingObject.SetActive(true);
+			SettingSwitchObject.transform.position = new Vector3(0,0,15);
+		}
+
 	}
 
 	bool IsCircle(){
