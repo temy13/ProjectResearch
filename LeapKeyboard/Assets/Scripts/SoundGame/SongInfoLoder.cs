@@ -105,7 +105,7 @@ public class SongInfoLoader {
 				//
 			default:
 			{
-				StagingDirection stagingDirection
+				/*StagingDirection stagingDirection
 					= StagingDirectionFactory.CreateStagingDirectionFromEnum(
 						(StagingDirectionEnum) System.Enum.Parse( typeof(StagingDirectionEnum), lineCells[0] ) 
 					);
@@ -113,7 +113,7 @@ public class SongInfoLoader {
 					stagingDirection.ReadCustomParameterFromString(lineCells);
 					stagingDirection.triggerBeatTiming = float.Parse(lineCells[1]);
 					sequence.Add(stagingDirection);
-				}
+				}*/
 			}
 				break;
 			};
