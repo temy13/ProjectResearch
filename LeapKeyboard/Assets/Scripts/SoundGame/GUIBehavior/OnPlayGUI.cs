@@ -43,15 +43,15 @@ public class OnPlayGUI : MonoBehaviour {
 		whitekeys = GameObject.Find ("WhiteKeys");
 		foreach( Transform child in whitekeys.transform)
 		{ 
-			GameObject childGObj = child.gameObject;
-			WhiteKeyObjects.Add(childGObj);
+			GameObject childObj = child.gameObject;
+			WhiteKeyObjects.Add(childObj);
 		}
 		//get black key object
 		blackkeys = GameObject.Find ("BlackKeys");
 		foreach( Transform child in blackkeys.transform)
 		{ 
-			GameObject childGObj = child.gameObject;
-			BlackKeyObjects.Add(childGObj);
+			GameObject childObj = child.gameObject;
+			BlackKeyObjects.Add(childObj);
 			
 		}
 //		GameObject sphere = GameObject.CreatePrimitive(PrimitiveType.Sphere);
@@ -165,20 +165,21 @@ public class OnPlayGUI : MonoBehaviour {
 			//if new marker is created, make new sphere
 			if(TargetSpheres.Count <= drawnIndex){
 				GameObject sphere_target = GameObject.CreatePrimitive(PrimitiveType.Sphere);
-				GameObject temp ;
+				GameObject key ;
 
 				if(info.isWhiteKey){
-					temp = WhiteKeyObjects [keynumber];
+					key = WhiteKeyObjects [keynumber];
 				}else {
-					temp = BlackKeyObjects [keynumber];
+					key = BlackKeyObjects [keynumber];
+					sphere_target.renderer.material.color = Color.black;
 				}
-				sphere_target.transform.position = new Vector3(temp.transform.position.x, temp.transform.position.y, 0);
+				sphere_target.transform.position = new Vector3(key.transform.position.x, key.transform.position.y, 0);
 				TargetSpheres.Add(sphere_target);
-			}else if(TargetSpheres.Count > 0 && z_offset*10 > 0){
+			}else if(TargetSpheres.Count > whitekeys.transform.position.y && z_offset*10 > whitekeys.transform.position.y){
 				TargetSpheres[drawnIndex].transform.position = new Vector3(TargetSpheres[drawnIndex].transform.position.x, 
 				                                                           TargetSpheres[drawnIndex].transform.position.y, 
 				                                                           z_offset*10 -3);//keyboard's z point is -3
-			}else if(z_offset*10 < 0)
+			}else if(z_offset*10 < whitekeys.transform.position.y)
 			{
 				TargetSpheres[drawnIndex].SetActive(false);
 			}
