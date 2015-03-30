@@ -62,14 +62,27 @@ public class HandBehaviorScript : MonoBehaviour {
 						ChangeLeftHandPosition (frame.Hands.Leftmost);
 				} else {
 						LeftHand.SetActive (false);
+						HandReleaseAction(false);
 				}
 		if (frame.Hands.Count > 0 && frame.Hands.Rightmost.IsRight && HandPositionYCheck(frame.Hands.Rightmost,false)) {
 						RightHand.SetActive (true);
 						ChangeRightHandPosition (frame.Hands.Rightmost);
 				} else {
 					RightHand.SetActive (false);
+					HandReleaseAction(true);
 				}
 		}
+
+	void HandReleaseAction(bool isRight){
+		int i = 0;
+		if (isRight)
+						i = 5;
+
+		for (int j =0; j<5; j++) {
+			ReleseAction (i+j);
+				}
+	
+	}
 
 	bool HandPositionYCheck(Hand hand,bool isleft){
 

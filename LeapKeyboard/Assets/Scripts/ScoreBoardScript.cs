@@ -15,6 +15,8 @@ public class ScoreBoardScript : MonoBehaviour {
 	public GameObject scoreboard;
 	GameObject camera;
 	GameObject keyboard;
+	Vector3 key_pos;
+	bool setting_active;
 	//score
 	byte[][] image_bytes = new byte[4][];
 	int scorenumber;
@@ -31,6 +33,8 @@ public class ScoreBoardScript : MonoBehaviour {
 		controller.EnableGesture(Gesture.GestureType.TYPESWIPE);
 		camera = GameObject.Find("Main Camera");
 		keyboard = GameObject.Find("KeyBoard");
+		key_pos = keyboard.transform.position;
+		setting_active = true;
 	}
 	
 	// Update is called once per frame
@@ -44,11 +48,23 @@ public class ScoreBoardScript : MonoBehaviour {
 				ChangeScore(new SwipeGesture(gesture));
 			}
 		}
-		if (Input.GetKeyDown (KeyCode.UpArrow)) {
-						moveCamera (true);
-				} else if (Input.GetKeyDown (KeyCode.DownArrow)) {
-						moveCamera (false);
+		if (Input.GetKeyDown (KeyCode.F1)) {
+			setting_active = !setting_active;	
+					keyboard.transform.position = key_pos;
 				}
+		if (!setting_active) {
+						if (Input.GetKeyDown (KeyCode.UpArrow)) {
+								moveCamera (true);
+						} else if (Input.GetKeyDown (KeyCode.DownArrow)) {
+								moveCamera (false);
+						}
+				}
+		if (Input.GetKeyDown (KeyCode.RightArrow)) {
+			ChangeScoreByKey(true);
+		}else if(Input.GetKeyDown(KeyCode.LeftArrow)){
+			ChangeScoreByKey(false);
+		}
+
 
 	}
 	void moveCamera(bool isup){
@@ -105,6 +121,18 @@ public class ScoreBoardScript : MonoBehaviour {
 				SetScore (image_bytes [scorenumber]);
 				}
 		}
+	void ChangeScoreByKey(bool isright){
+		if (isright) {
+			if(image_bytes[scorenumber] != null){
+				scorenumber++;
+				SetScore (image_bytes [scorenumber]);
+			}
+		}else {
+			if(scorenumber > 0)
+				scorenumber--;
+			SetScore (image_bytes [scorenumber]);
+		}
+	}
 }
 
 public class ImageFromPDF

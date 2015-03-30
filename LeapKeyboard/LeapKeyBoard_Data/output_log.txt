@@ -1,10 +1,10 @@
-Initialize engine version: 4.6.0f3 (30840d631a27)
+Initialize engine version: 4.6.3f1 (4753d8b6ef2b)
 GfxDevice: creating device client; threaded=1
 Direct3D:
     Version:  Direct3D 11.0 [level 11.0]
     Renderer: Intel(R) HD Graphics 4000 (ID=0x166)
     Vendor:   Intel
-    VRAM:     32 MB
+    VRAM:     128 MB
 Begin MonoManager ReloadAssembly
 Platform assembly: C:\Users\temyH\Documents\UnityProjects\ProjectResearch\LeapKeyboard\LeapKeyBoard_Data\Managed\UnityEngine.dll (this message is harmless)
 Loading C:\Users\temyH\Documents\UnityProjects\ProjectResearch\LeapKeyboard\LeapKeyBoard_Data\Managed\UnityEngine.dll into Unity Child Domain
@@ -18,27 +18,33 @@ Platform assembly: C:\Users\temyH\Documents\UnityProjects\ProjectResearch\LeapKe
 Loading C:\Users\temyH\Documents\UnityProjects\ProjectResearch\LeapKeyboard\LeapKeyBoard_Data\Managed\LeapCSharp.NET3.5.dll into Unity Child Domain
 Platform assembly: C:\Users\temyH\Documents\UnityProjects\ProjectResearch\LeapKeyboard\LeapKeyBoard_Data\Managed\Qualcomm.Vuforia.UnityExtensions.dll (this message is harmless)
 Loading C:\Users\temyH\Documents\UnityProjects\ProjectResearch\LeapKeyboard\LeapKeyBoard_Data\Managed\Qualcomm.Vuforia.UnityExtensions.dll into Unity Child Domain
-- Completed reload, in  0.309 seconds
+- Completed reload, in  0.231 seconds
 desktop: 1366x768 60Hz; virtual: 1366x768 at 0,0
 <RI> Initializing input.
 <RI> Input initialized.
 Platform assembly: C:\Users\temyH\Documents\UnityProjects\ProjectResearch\LeapKeyboard\LeapKeyBoard_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\Users\temyH\Documents\UnityProjects\ProjectResearch\LeapKeyboard\LeapKeyBoard_Data\Managed\System.dll (this message is harmless)
-UnloadTime: 0.111253 ms
-Can't add component because class 'PremiumObjectFactoryStarterBehaviour' doesn't exist!
+UnloadTime: 0.160517 ms
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+
+Unloading 2 unused Assets to reduce memory usage. Loaded Objects now: 2035.
+Total: 1.307540 ms (FindLiveObjects: 0.089495 ms CreateObjectMapping: 0.038589 ms MarkObjects: 0.409709 ms  DeleteObjects: 0.010673 ms)
+
+0.4614198
  
-(Filename:  Line: 38)
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
 
-Can't add component because class 'PremiumComponentFactoryStarterBehaviour' doesn't exist!
+0.3
  
-(Filename:  Line: 38)
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
 
-Unloading 4 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
-
-Unloading 2 unused Assets to reduce memory usage. Loaded Objects now: 1935.
-Total: 0.750450 ms (FindLiveObjects: 0.057474 ms CreateObjectMapping: 0.023810 ms MarkObjects: 0.199517 ms  DeleteObjects: 0.008210 ms)
-
-Trackable UnityHat lost
+restart
  
-(Filename: C:/BuildAgent/work/d63dfc6385190b60/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 49)
+(Filename: C:/buildslave/unity/build/artifacts/StandalonePlayerGenerated/UnityEngineDebug.cpp Line: 56)
+
+UnloadTime: 1.204907 ms
+Unloading 3 Unused Serialized files (Serialized files now loaded: 0 / Dirty serialized files: 0)
+
+Unloading 19 unused Assets to reduce memory usage. Loaded Objects now: 2059.
+Total: 1.934420 ms (FindLiveObjects: 0.162570 ms CreateObjectMapping: 0.064042 ms MarkObjects: 0.643712 ms  DeleteObjects: 0.130959 ms)
 

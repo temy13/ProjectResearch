@@ -228,7 +228,7 @@ public class OnPlayGUI : MonoBehaviour {
 			//show message
 			if( m_messageShowCountDown > 0 ){
 				GUI.color=new Color(1, 1, 1, m_messageShowCountDown/40.0f );
-				GUI.DrawTexture(new Rect(20,230,150,50),messageTexture,ScaleMode.ScaleAndCrop, true);
+				GUI.DrawTexture(new Rect(500,250,150,50),messageTexture,ScaleMode.ScaleAndCrop, true);
 				GUI.color=Color.white;
 				m_messageShowCountDown--;
 

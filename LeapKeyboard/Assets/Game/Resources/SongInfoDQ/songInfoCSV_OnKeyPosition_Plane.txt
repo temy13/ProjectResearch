@@ -60,7 +60,7 @@ SingleShot,89.5,H ,white
 SingleShot,90,highC,white
 SingleShot,90.5,highF,white
 SingleShot,92.5,highE ,white
-SingleShot,94.5,highC,white
+SingleShot,95,highC,white
 
 SingleShot,98,G,white
 SingleShot,98.5,G,white
@@ -102,15 +102,15 @@ SingleShot,136,highF,white
 SingleShot,136.5,highE,white
 SingleShot,137,highD,white
 SingleShot,137.5,highC,white
-SingleShot,139,A,white
+SingleShot,140,A,white
 SingleShot,140.5,highC,white
 SingleShot,141.5,highD,white
-SingleShot,144,highE,white
-SingleShot,144.5,highD,white
-SingleShot,145,highC,white
+SingleShot,144.5,highE,white
+SingleShot,145,highD,white
 SingleShot,145.5,highC,white
-SingleShot,147.5,H,white
-SingleShot,148.5,G ,white
+SingleShot,146,highC,white
+SingleShot,148,H,white
+SingleShot,149,G ,white
 SingleShot,150,highG,white
 SingleShot,153,highE,white
 SingleShot,153.5,highF,white
@@ -121,6 +121,26 @@ SingleShot,157.5,H ,white
 SingleShot,158,highC,white
 SingleShot,158.5,highF,white
 SingleShot,160.5,highE ,white
-SingleShot,162.5,highC,white
+SingleShot,163.5,highC,white
+
+
+SingleShot,168.5,G,white
+SingleShot,169.5,highG,white
+SingleShot,170.5,highC,white
+SingleShot,171.25,highD,white
+SingleShot,172,highE,white
+SingleShot,172.75,highF,white
+SingleShot,173.5,highE,white
+SingleShot,174.25,highF,white
+SingleShot,175,highG,white
+SingleShot,175.75,highA,white
+
+SingleShot,182,highA,white
+SingleShot,184,highH,white
+SingleShot,185,highhighC,white
+SingleShot,186,highhighF,white
+SingleShot,192,highhighE,white
+SingleShot,195,highhighE,white
+SingleShot,198,highhighC,white
 
 scoringUnitSequenceRegion-End

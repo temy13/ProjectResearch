@@ -25,7 +25,8 @@ public class ShowResultGUI : MonoBehaviour
 	// Update is called once per frame
 	void Update()
 	{
-
+		if(Input.GetMouseButton(0))
+			GameObject.Find("PhaseManager").GetComponent<PhaseManager>().SetPhase("Restart");
 	}
 	void OnGUI()
 	{

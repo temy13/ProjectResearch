@@ -134,7 +134,8 @@ public class PhaseManager : MonoBehaviour {
 			break;
 		case "Restart":
 		{
-			Application.LoadLevel("Main");
+			Debug.Log ("restart");
+			Application.LoadLevel (3);
 		}
 			break;
 		default:

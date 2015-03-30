@@ -12,6 +12,8 @@ public class PointScript : MonoBehaviour {
 	public GameObject SettingSwitchObject;
 	public GameObject SettingObject;
 
+	GameObject camera;
+
 	SettingScript stc;
 
 	private Vector3 mouse_position;
@@ -25,6 +27,7 @@ public class PointScript : MonoBehaviour {
 		controller.EnableGesture(Gesture.GestureType.TYPESCREENTAP);
 		controller.EnableGesture(Gesture.GestureType.TYPESWIPE);
 		SettingSwitchObject.SetActive (false);
+
 	}
 	
 	// Update is called once per frame
@@ -41,11 +44,28 @@ public class PointScript : MonoBehaviour {
 				PointMoveByMouse();
 			}
 		}
-		if(Input.GetKey(KeyCode.F1)){
+		if(Input.GetKeyDown(KeyCode.F1)){
 			SettingActiveSet();
+		}
+		if(Input.GetKeyDown(KeyCode.F7)){
+			MoveCameraY(true);
+		}
+		if(Input.GetKeyDown(KeyCode.F8)){
+			MoveCameraY(false);
 		}
 
 	}
+
+	void MoveCameraY(bool front){
+		camera = GameObject.Find("Main Camera");
+		if(!camera)camera = GameObject.Find("AR Camera");
+			if(front)
+				camera.transform.position = new Vector3(camera.transform.position.x,camera.transform.position.y+5,camera.transform.position.z);
+			else
+				camera.transform.position = new Vector3(camera.transform.position.x,camera.transform.position.y-5,camera.transform.position.z);
+	
+	}
+
 	void PointMoveByMouse(){
 		mouse_position = Input.mousePosition;
 		mouse_position.z = 10f;
@@ -64,7 +84,9 @@ public class PointScript : MonoBehaviour {
 	}
 
 	void SettingActiveSet(){
-		GameObject camera = GameObject.Find("Main Camera");
+		camera = GameObject.Find("Main Camera");
+		if(!camera)camera = GameObject.Find("AR Camera");
+
 		if(SettingObject.activeSelf){
 			/*if(Application.loadedLevelName == "KeyBoardWithScore" && camera){
 				camera.transform.position = new Vector3(25,1,40);
